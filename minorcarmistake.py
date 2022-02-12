@@ -2,6 +2,7 @@ import time
 import json
 import emoji_data_python
 import threading
+import os
 f = open("minorcarmistake/save.txt", "r")
 
 car = emoji_data_python.unified_to_char("1F697")
@@ -11,6 +12,12 @@ funamm = 1
 points = 0
 rep = 0
 key = 0
+
+if os.path.exists("minorcarmistake/save.txt") != True:
+    f = open("minorcarmistake/save.txt", "x")
+    f = open("minorcarmistake/save.txt", "w")
+    f.write('{"carnum":' + str(carnum) + ', "hits":' + str(hits) + ', "funamm":' + str(funamm) + ', "points":' +  str(points) + '}')
+
 
 try: 
     read = json.loads(f.read())
