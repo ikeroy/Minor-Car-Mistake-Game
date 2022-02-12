@@ -1,16 +1,37 @@
 import time
+import json
+import emoji_data_python
+import threading
+f = open("minorcarmistake/save.txt", "r")
 
-car = "🚗"
+car = emoji_data_python.unified_to_char("1F697")
 carnum = 1
 hits = 15
 funamm = 1
 points = 0
 rep = 0
-income = 0
-#mp3 = mutagen.mp3.MP3("olo.mp3")
+key = 0
+
+try: 
+    read = json.loads(f.read())
+    carnum = read["carnum"]
+    hits = read["hits"]
+    funamm = read["funamm"]
+    points = read["points"]
+finally:
+    pass
+
 
 def clear():
     print("a" + "\n" * 100)
+
+def save():
+    f = open("minorcarmistake/save.txt", "w")
+    f.write('{"carnum":' + str(carnum) + ', "hits":' + str(hits) + ', "funamm":' + str(funamm) + ', "points":' +  str(points) + '}')
+    print("Game autosaved!")
+    savegame = threading.Timer(240, save)
+    savegame.start()
+
 
 def shop():
     global car
@@ -19,8 +40,10 @@ def shop():
     global funamm
     global points
     global key
-    global income
+    global savegame
     clear()
+    savegame = threading.Timer(5.0, save)
+    savegame.start()
     sel = input(f"B to buy microsoft OR buy bill gates' house\nC to buy better car ({str(1000 * carnum)} Funny points)\nM to gain more Funny points per minor car mistake({str(50 * carnum * funamm)} Funny points)\nS to shorten the amount of hits per minor car mistake({str(10 * carnum * abs((hits - 1)-(15*carnum)))} Funny points)\nE to escape\n")
     if sel.lower() == "c":
         if points >= 1000 * carnum:
@@ -28,8 +51,8 @@ def shop():
                 print("You already have the best car!")
                 time.sleep(1)
             else:
-                carnum += 1
                 points -= 1000 * carnum
+                carnum += 1
                 key = rep + 1
         else:
             print("You don't have enough Funny points!")
@@ -39,16 +62,21 @@ def shop():
         if sel.lower() == "b":
             if points >= 63000000:
                 print("You now own bill gates's house! (you get nothing lol)")
+                time.sleep(1)
             else:
                 print("You don't have enough Funny points!")
+                time.sleep(1)
         elif sel.lower() == "m":
             if points >= 2000000000000:
                 print("You now own Microsoft")
+                time.sleep(1)
+            else:
+                print("You don't have enough Funny points!")
+                time.sleep(1)
     elif sel.lower() == "s":
         if points >= 10 * carnum * abs((hits - 1)-(15*carnum)):
             if hits >= 1:
                 hits -= 1 
-                #pg.mixer.init(frequency=lol.info.sample_rate + soundlen)
                 points -= 10 * carnum * abs((hits + 1)-(15*carnum))
             else:
                 print("You are at the minimum amount of hits!")
@@ -69,44 +97,46 @@ def shop():
         print("That is not a valid selection!")
         time.sleep(1)
 
-#pygame.mixer.init(frequency=mp3.info.sample_rate)
-#pygame.mixer.music.load("olo.mp3") 
-
-def passive_income():
-    global points
-    global income
-    time.sleep(1)
-    points += income
-
 
 while True:
     clear()
     if carnum == 2 and key == rep:
-        car = "🚘"
-        hits = 15
-        hits *= carnum
-        funamm *= carnum
+        emoji_data_python.unified_to_char("1F698")
+        if rep != 0:
+            hits = 15
+            hits *= carnum
+            funamm *= carnum
     elif carnum == 3 and key == rep:
-        car = "🚓"
-        hits = 15
-        hits *= carnum
+        car = emoji_data_python.unified_to_char("1F693")
+        if rep != 0:
+            hits = 15
+            hits *= carnum
+            funamm *= carnum
     elif carnum == 4 and key == rep:
-        car = "🚔"
-        hits = 15
-        hits *= carnum
+        car = emoji_data_python.unified_to_char("1F697")
+        if rep != 0:
+            hits = 15
+            hits *= carnum
+            funamm *= carnum
     elif carnum == 5 and key == rep:
-        car = "🚋"
-        hits = 15
-        hits *= carnum
+        car = emoji_data_python.unified_to_char("1F68B")
+        if rep != 0:
+            hits = 15
+            hits *= carnum
+            funamm *= carnum
     elif carnum == 6 and key == rep:
-        car = "🚃"
-        hits = 15
-        hits *= carnum
+        car = emoji_data_python.unified_to_char("1F683")
+        if rep != 0:
+            hits = 15
+            hits *= carnum
+            funamm *= carnum
     elif carnum == 7 and key == rep:
-        car = "🏎"
-        hits = 15
-        hits *= carnum
-    sel = input(f"Funny points:{points}\nCar:{car}\ns for shop\nenter for minor car mistake\n")
+        car = emoji_data_python.unified_to_char("1F3CE")
+        if rep != 0:
+            hits = 15
+            hits *= carnum
+            funamm *= carnum    
+    sel = input(f"SAVE to save game\nFunny points:{points}\nCar:{car}\ns for shop\nenter for minor car mistake\n")
     if sel.lower() == "s":
         shop()
     if sel == "":
@@ -116,4 +146,7 @@ while True:
             clear()
             EOF_handle = input(f"Hits:{str(x)}/{hits}")
         points += funamm
+    elif sel.lower() == "save":
+        f = open("minorcarmistake/save.txt", "w")
+        f.write('{"carnum":' + str(carnum) + ', "hits":' + str(hits) + ', "funamm":' + str(funamm) + ', "points":' +  str(points) + '}')
     rep += 1
