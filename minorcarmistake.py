@@ -32,6 +32,7 @@ def save():
     savegame = threading.Timer(240, save)
     savegame.start()
 
+save()
 
 def shop():
     global car
@@ -42,8 +43,6 @@ def shop():
     global key
     global savegame
     clear()
-    savegame = threading.Timer(5.0, save)
-    savegame.start()
     sel = input(f"B to buy microsoft OR buy bill gates' house\nC to buy better car ({str(1000 * carnum)} Funny points)\nM to gain more Funny points per minor car mistake({str(50 * carnum * funamm)} Funny points)\nS to shorten the amount of hits per minor car mistake({str(10 * carnum * abs((hits - 1)-(15*carnum)))} Funny points)\nE to escape\n")
     if sel.lower() == "c":
         if points >= 1000 * carnum:
